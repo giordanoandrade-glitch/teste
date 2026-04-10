@@ -1,0 +1,72 @@
+<!DOCTYPE html>  
+<html lang="pt-BR">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Contrato Patos Casamentos</title>  
+    <style>  
+        body { font-family: Arial, sans-serif; margin: 20px; }  
+        form { margin-bottom: 20px; }  
+        .contract { border: 1px solid #000; padding: 10px; margin-top: 20px; }  
+        #pdfButton { margin-top: 20px; }  
+    </style>  
+</head>  
+<body>  
+    <h1>Gerador de Contrato Patos Casamentos</h1>  
+    <form id="contractForm">  
+        <label for="clientName">Nome do Cliente:</label><br>  
+        <input type="text" id="clientName" required><br><br>  
+        <label for="date">Data:</label><br>  
+        <input type="date" id="date" required><br><br>  
+        <label for="package">Pacote:</label><br>  
+        <select id="package" required>  
+            <option value="basic">Básico</option>  
+            <option value="premium">Premium</option>  
+            <option value="deluxe">Deluxe</option>  
+        </select><br><br>  
+        <button type="submit">Gerar Contrato</button>  
+    </form>  
+    <div class="contract" id="contractOutput">  
+        <h2>Contrato</h2>  
+        <p id="contractText"></p>  
+    </div>  
+    <button id="pdfButton">Exportar PDF</button>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>  
+    <script>  
+        // Função para gerar o contrato  
+        function generateContract() {  
+            const clientName = document.getElementById('clientName').value;  
+            const date = document.getElementById('date').value;  
+            const package = document.getElementById('package').value;  
+  
+            // Exemplo de 7 cláusulas  
+            const clauses = [  
+                `Cláusula 1: O cliente ${clientName} concorda em contratar...`,  
+                `Cláusula 2: O serviço será realizado na data ${date}.`,  
+                `Cláusula 3: O pacote escolhido é ${package}.`,  
+                `Cláusula 4: O valor total é...`,  
+                `Cláusula 5: O pagamento deve ser realizado...`,  
+                `Cláusula 6: O cancelamento pode ser feito...`,  
+                `Cláusula 7: O contrato é válido até...`  
+            ];  
+            const contractText = clauses.join('\n');  
+            document.getElementById('contractText').innerText = contractText;  
+        }  
+  
+        // Event listener para o formulário  
+        document.getElementById('contractForm').addEventListener('submit', function(event) {  
+            event.preventDefault();  
+            generateContract();  
+        });  
+  
+        // Função para exportar o contrato como PDF  
+        document.getElementById('pdfButton').addEventListener('click', function() {  
+            const { jsPDF } = window.jspdf;  
+            const doc = new jsPDF();  
+            const contractText = document.getElementById('contractText').innerText;  
+            doc.text(contractText, 10, 10);  
+            doc.save('contrato.pdf');  
+        });  
+    </script>  
+</body>  
+</html>
